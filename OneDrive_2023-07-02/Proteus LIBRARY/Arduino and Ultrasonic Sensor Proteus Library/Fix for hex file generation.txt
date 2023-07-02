@@ -1,0 +1,2 @@
+After installing Arduino IDE, go to -
+File ---> preferences ---> Show verbose output during --> tick compilation
