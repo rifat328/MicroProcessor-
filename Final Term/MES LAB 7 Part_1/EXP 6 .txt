@@ -1,0 +1,70 @@
+const int echoPin = 6; // Echo Pin of Ultrasonic Sensor
+const int trigPin = 7; // Trigger Pin of Ultrasonic Sensor
+const int GREEN = 2; // Green
+const int RED = 8; // RED
+const int YELLOW = 3; // Yellow
+void setup() 
+{
+ Serial.begin(9600); // Starting Serial Communication
+ pinMode(trigPin, OUTPUT); // initialising pin 7 as output
+ pinMode(echoPin, INPUT); // initialising pin 6 as input
+ pinMode(RED, OUTPUT); // initialising pin 4 as output
+ pinMode(GREEN, OUTPUT); // initialising pin 4 as output
+ pinMode(YELLOW, OUTPUT); // initialising pin 4 as output
+}
+void loop()
+{
+ long duration, inches, cm;
+ 
+ digitalWrite(trigPin, LOW);
+ delayMicroseconds(2);
+ digitalWrite(trigPin, HIGH);
+ delayMicroseconds(10);
+ 
+ digitalWrite(trigPin, LOW);
+ 
+ duration = pulseIn(echoPin, HIGH); // using pulsin function to determine total time
+ inches = microsecondsToInches(duration); // calling method
+ cm = microsecondsToCentimeters(duration); // calling method
+ if(cm>10 && cm <= 20)
+ { Serial.print(inches);
+ Serial.print("in, ");
+ Serial.print(cm);
+ Serial.print("cm");
+ Serial.println();
+ digitalWrite(RED, HIGH);
+ }
+ else if(cm > 20 && cm <= 50)
+ {
+ Serial.print(inches);
+ Serial.print("in, ");
+ Serial.print(cm);
+ Serial.print("cm");
+ Serial.println();
+ digitalWrite(YELLOW, HIGH);
+  }
+   else if(cm > 50 && cm <= 100)
+ {
+  Serial.print(inches);
+ Serial.print("in, ");
+ Serial.print(cm);
+ Serial.print("cm");
+ Serial.println();
+ digitalWrite(GREEN, HIGH);
+  }
+ else 
+ { 
+  digitalWrite(RED, LOW);
+  digitalWrite(YELLOW, LOW);
+  digitalWrite(GREEN, LOW);
+ }
+ delay(100);
+}
+long microsecondsToInches(long microseconds) // method to covert microsec to inches 
+{
+return microseconds / 74 / 2;
+}
+long microsecondsToCentimeters(long microseconds) // method to covert microsec to cm
+{
+ return microseconds / 29 / 2;
+}
